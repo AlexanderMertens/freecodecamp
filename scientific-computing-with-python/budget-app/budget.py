@@ -9,10 +9,11 @@ class Category:
         self.name = name
 
     def deposit(self, amount, description=''):
-        self.ledger.append({AMOUN_STR: amount, DESCR_STR: description})
+        if amount >= 0:
+            self.ledger.append({AMOUN_STR: amount, DESCR_STR: description})
 
     def withdraw(self, amount, description=''):
-        if self.check_funds(amount):
+        if self.check_funds(amount) and amount >= 0:
             self.ledger.append({AMOUN_STR: -amount, DESCR_STR: description})
             return True
         else:
@@ -30,6 +31,13 @@ class Category:
         for entry in self.ledger:
             balance += entry[AMOUN_STR]
         return balance
+
+    def get_withdrawn_total(self):
+        withdrawn = 0
+        for entry in self.ledger:
+            if entry[AMOUN_STR] < 0:
+                withdrawn -= entry[AMOUN_STR]
+        return withdrawn
 
     def check_funds(self, amount):
         return amount <= self.get_balance()
@@ -65,6 +73,7 @@ def num_to_string(num):
     if '.' in num_str[-2:]:  # check if there's only a single digit after the dot
         num_str += '0'
     return num_str
+
 
 def create_spend_chart(categories):
     return ''
