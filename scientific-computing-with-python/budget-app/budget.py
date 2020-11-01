@@ -8,11 +8,11 @@ class Category:
         self.name = name
 
     def deposit(self, amount, description=''):
-        self.ledger.append({DESCR_STR: amount, AMOUN_STR: description})
+        self.ledger.append({AMOUN_STR: amount, DESCR_STR: description})
 
     def withdraw(self, amount, description=''):
         if self.check_funds(amount):
-            self.ledger.append({DESCR_STR: -amount, AMOUN_STR: description})
+            self.ledger.append({AMOUN_STR: -amount, DESCR_STR: description})
             return True
         else:
             return False
@@ -31,4 +31,4 @@ class Category:
         return balance
 
     def check_funds(self, amount):
-        return amount > self.get_balance()
+        return amount <= self.get_balance()
