@@ -10,10 +10,13 @@ def parse_problem(problem_string):
         raise ValueError("Error: Operator must be '+' or '-'.")
 
     try:
-        operand1, operand2 = map(int, problem_string.split(split_string, 1))
+        operand1, operand2 = map(str, map(int, problem_string.split(split_string, 1)))
     except ValueError:
         raise ValueError("Error: Numbers must only contain digits.")
 
-    if max(operand1, operand2) >= 10 ** MAX_DIGITS:
+    if max(len(operand1), len(operand2)) > MAX_DIGITS:
         raise ValueError("Error: Numbers cannot be more than four digits.")
-    return operand1, operand2, split_string
+    length = 2 + max(len(operand1), len(operand2))
+    return [' ' * (length - len(operand1)) + operand1,
+            split_string + ' ' * (length - len(operand2) - 1) + operand2,
+            length]
