@@ -23,3 +23,12 @@ class Category:
             return True
         else:
             return False
+
+    def get_balance(self):
+        balance = 0
+        for entry in self.ledger:
+            balance += entry[AMOUN_STR]
+        return balance
+
+    def check_funds(self, amount):
+        return amount > self.get_balance()
