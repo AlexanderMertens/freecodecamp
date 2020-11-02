@@ -27,10 +27,30 @@ class Rectangle:
         result = ''
         for _ in range(self.height):
             result = ''.join((result, '*' *  self.width, '\n'))
-        return result.rstrip()
+        return result
 
     def get_amount_inside(self, other):
         return (self.width // other.width) * (self.height // other.height)
 
     def __str__(self):
         return f"Rectangle(width={self.width}, height={self.height})"
+
+
+class Square(Rectangle):
+    def __init__(self, side):
+        self.side = side
+        super().__init__(side, side)
+
+    def set_side(self, side):
+        self.side = side
+        self.height = side
+        self.width = side
+
+    def set_width(self, width):
+        self.set_side(width)
+
+    def set_height(self, height):
+        self.set_side(height)
+
+    def __str__(self):
+        return f"Square(side={self.side})"
