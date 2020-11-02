@@ -1,6 +1,4 @@
-import copy
 import random
-# Consider using the modules imported above.
 
 class Hat:
     def __init__(self, **balls):
@@ -12,10 +10,15 @@ class Hat:
         self.contents += [name] * amount
 
     def draw(self, amount):
-        drawn = random.sample(self.contents, k=amount)
+        drawn = self.draw_without_remove(amount)
         for ball in drawn:
             self.contents.remove(ball)
         return drawn
+
+    def draw_without_remove(self, amount):
+        if amount > len(self.contents):
+            return self.contents[:]
+        return random.sample(self.contents, k=amount)
 
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
