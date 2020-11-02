@@ -22,3 +22,13 @@ class Hat:
 
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
+    success_count = 0
+    for _ in range(num_experiments):
+        drawn = hat.draw_without_remove(num_balls_drawn)
+        success = True
+        for name, amount in expected_balls.items():
+            if drawn.count(name) < amount:
+                success = False
+        if success:
+            success_count += 1
+    return success_count / num_experiments
