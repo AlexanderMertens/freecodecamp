@@ -1,3 +1,5 @@
+import math
+
 DESCR_STR = "description"
 AMOUN_STR = "amount"
 LINE_WIDTH = 30
@@ -76,4 +78,25 @@ def num_to_string(num):
 
 
 def create_spend_chart(categories):
-    return ''
+    withdraw_amounts = list(map(lambda x: x.get_withdrawn_total(), categories))
+    total_withdrawn = sum(withdraw_amounts)
+    withdraw_percentages = list(map(lambda x: round_down((100 * x) / total_withdrawn), withdraw_amounts))
+    result = "Percentage spent by category\n"
+    for i in range(100, -10, -10):
+        percentage = str(i)
+        percentage_string = ''.join((' ' * (3 - len(percentage)), percentage, '|'))
+        percentage_bars = '  '.join('o' if percentage >= i else ' ' for percentage in withdraw_percentages)
+        result += ' '.join((percentage_string, percentage_bars, ' \n'))
+    result = ''.join((result, ' ' * 4, '-' * (3 * len(categories) + 1), '\n'))
+    longest_name = max(map(lambda x: len(x.name), categories))
+    names = [category.name + (longest_name - len(category.name)) * ' ' for category in categories]
+    for line in zip(*names):
+        result += ' ' * 5
+        result += '  '.join(line) + "  \n"
+    return result.rstrip('\n')
+
+
+def round_down(n):
+    decimals = -1
+    multiplier = 10 ** decimals
+    return math.floor(n * multiplier) / multiplier
